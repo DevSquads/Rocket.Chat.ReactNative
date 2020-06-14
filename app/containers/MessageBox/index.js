@@ -25,7 +25,7 @@ import debounce from '../../utils/debounce';
 import { themes } from '../../constants/colors';
 import LeftButtons from './LeftButtons';
 import RightButtons from './RightButtons';
-import { isAndroid, isTablet } from '../../utils/deviceInfo';
+import { isAndroid, isIOS, isTablet } from '../../utils/deviceInfo';
 import { canUploadFile } from '../../utils/media';
 import EventEmiter from '../../utils/events';
 import {
@@ -46,6 +46,7 @@ import CommandsPreview from './CommandsPreview';
 import { Review } from '../../utils/review';
 import { getUserSelector } from '../../selectors/login';
 import Navigation from '../../lib/Navigation';
+import { ActionsButton } from './buttons';
 
 const imagePickerConfig = {
 	cropping: true,
@@ -818,7 +819,7 @@ class MessageBox extends Component {
 			<>
 				<CommandsPreview commandPreview={commandPreview} showCommandPreview={showCommandPreview} />
 				<Mentions mentions={mentions} trackingType={trackingType} theme={theme} />
-				<View style={[styles.composer, { borderTopColor: themes[theme].separatorColor }]}>
+				<View style={[styles.composer, { borderTopColor: 'transparent' }, isIOS && {backgroundColor: 'white'} ]}>
 					<ReplyPreview
 						message={message}
 						close={replyCancel}
@@ -830,42 +831,54 @@ class MessageBox extends Component {
 					<View
 						style={[
 							styles.textArea,
-							{ backgroundColor: themes[theme].messageboxBackground }, editing && { backgroundColor: themes[theme].chatComponentBackground }
+							editing && { backgroundColor: themes[theme].chatComponentBackground },
+							// {  editing && { backgroundColor: themes[theme].chatComponentBackground }},
+							{
+								backgroundColor: 'transparent', marginBottom: 3
+							}
 						]}
 						testID='messagebox'
 					>
-						<LeftButtons
-							theme={theme}
-							showEmojiKeyboard={showEmojiKeyboard}
-							editing={editing}
-							showMessageBoxActions={this.showMessageBoxActions}
-							editCancel={this.editCancel}
-							openEmoji={this.openEmoji}
-							closeEmoji={this.closeEmoji}
-						/>
-						<TextInput
-							ref={component => this.component = component}
-							style={styles.textBoxInput}
-							returnKeyType='default'
-							keyboardType='twitter'
-							blurOnSubmit={false}
-							placeholder={I18n.t('New_Message')}
-							onChangeText={this.onChangeText}
-							underlineColorAndroid='transparent'
-							defaultValue=''
-							multiline
-							testID='messagebox-input'
-							theme={theme}
-							{...isAndroidTablet}
-						/>
-						<RightButtons
-							theme={theme}
-							showSend={showSend}
-							submit={this.submit}
-							recordAudioMessage={this.recordAudioMessage}
-							recordAudioMessageEnabled={Message_AudioRecorderEnabled}
-							showMessageBoxActions={this.showMessageBoxActions}
-						/>
+						<View style={{flex: 1, flexDirection: 'row'}}>
+							<View style={{flexDirection: 'row', flex: 1, borderRadius: 30, marginRight: 5, backgroundColor: 'white' }}>
+								<LeftButtons
+									theme={theme}
+									showEmojiKeyboard={showEmojiKeyboard}
+									editing={editing}
+									showMessageBoxActions={this.showMessageBoxActions}
+									editCancel={this.editCancel}
+									openEmoji={this.openEmoji}
+									closeEmoji={this.closeEmoji}
+								/>
+								<TextInput
+									ref={component => this.component = component}
+									style={styles.textBoxInput}
+									returnKeyType='default'
+									keyboardType='twitter'
+									blurOnSubmit={false}
+									placeholder={I18n.t('New_Message')}
+									onChangeText={this.onChangeText}
+									underlineColorAndroid='transparent'
+									defaultValue=''
+									multiline
+									testID='messagebox-input'
+									theme={theme}
+									{...isAndroidTablet}
+								/>
+								{ isAndroid && <ActionsButton onPress={this.showMessageBoxActions} theme={theme} /> }
+							</View>
+							<View style={{flexDirection: 'row'}}>
+								<RightButtons
+									theme={theme}
+									showSend={showSend}
+									submit={this.submit}
+									recordAudioMessage={this.recordAudioMessage}
+									recordAudioMessageEnabled={Message_AudioRecorderEnabled}
+									showMessageBoxActions={this.showMessageBoxActions}
+								/>
+							</View>
+						</View>
+
 					</View>
 				</View>
 			</>

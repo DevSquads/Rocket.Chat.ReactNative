@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, InteractionManager } from 'react-native';
+import { Text, View, InteractionManager, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-navigation';
 
@@ -1002,6 +1002,8 @@ class RoomView extends React.Component {
 
 	setListRef = ref => this.flatList = ref;
 
+	backgroundImage = require('./../../static/images/chat-background.png');
+
 	render() {
 		console.count(`${ this.constructor.name }.render calls`);
 		const {
@@ -1023,45 +1025,47 @@ class RoomView extends React.Component {
 				testID='room-view'
 				forceInset={{ vertical: 'never' }}
 			>
-				<StatusBar theme={theme} />
-				<Banner
-					rid={rid}
-					title={I18n.t('Announcement')}
-					text={announcement}
-					bannerClosed={bannerClosed}
-					closeBanner={this.closeBanner}
-					theme={theme}
-				/>
-				<List
-					ref={this.list}
-					listRef={this.setListRef}
-					rid={rid}
-					t={t}
-					tmid={this.tmid}
-					theme={theme}
-					room={room}
-					renderRow={this.renderItem}
-					loading={loading}
-					navigation={navigation}
-					hideSystemMessages={Array.isArray(sysMes) ? sysMes : Hide_System_Messages}
-				/>
-				{this.renderFooter()}
-				{this.renderActions()}
-				<ReactionPicker
-					show={reacting}
-					message={selectedMessage}
-					onEmojiSelected={this.onReactionPress}
-					reactionClose={this.onReactionClose}
-				/>
-				<UploadProgress rid={this.rid} user={user} baseUrl={baseUrl} />
-				<ReactionsModal
-					message={selectedMessage}
-					isVisible={reactionsModalVisible}
-					user={user}
-					baseUrl={baseUrl}
-					onClose={this.onCloseReactionsModal}
-					getCustomEmoji={this.getCustomEmoji}
-				/>
+				<ImageBackground source={this.backgroundImage} style={{flex: 1}}>
+					<StatusBar theme={theme} />
+					<Banner
+						rid={rid}
+						title={I18n.t('Announcement')}
+						text={announcement}
+						bannerClosed={bannerClosed}
+						closeBanner={this.closeBanner}
+						theme={theme}
+					/>
+					<List
+						ref={this.list}
+						listRef={this.setListRef}
+						rid={rid}
+						t={t}
+						tmid={this.tmid}
+						theme={theme}
+						room={room}
+						renderRow={this.renderItem}
+						loading={loading}
+						navigation={navigation}
+						hideSystemMessages={Array.isArray(sysMes) ? sysMes : Hide_System_Messages}
+					/>
+					{this.renderFooter()}
+					{this.renderActions()}
+					<ReactionPicker
+						show={reacting}
+						message={selectedMessage}
+						onEmojiSelected={this.onReactionPress}
+						reactionClose={this.onReactionClose}
+					/>
+					<UploadProgress rid={this.rid} user={user} baseUrl={baseUrl} />
+					<ReactionsModal
+						message={selectedMessage}
+						isVisible={reactionsModalVisible}
+						user={user}
+						baseUrl={baseUrl}
+						onClose={this.onCloseReactionsModal}
+						getCustomEmoji={this.getCustomEmoji}
+					/>
+				</ImageBackground>
 			</SafeAreaView>
 		);
 	}

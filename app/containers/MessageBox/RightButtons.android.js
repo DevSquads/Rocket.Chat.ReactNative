@@ -13,7 +13,6 @@ const RightButtons = React.memo(({
 		return (
 			<>
 				<AudioButton onPress={recordAudioMessage} theme={theme} />
-				<ActionsButton onPress={showMessageBoxActions} theme={theme} />
 			</>
 		);
 	}
