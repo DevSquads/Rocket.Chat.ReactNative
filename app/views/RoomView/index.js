@@ -1018,7 +1018,7 @@ class RoomView extends React.Component {
 			<SafeAreaView
 				style={[
 					styles.container,
-					{ backgroundColor: themes[theme].backgroundColor }
+					{ backgroundColor: '#ECE5DD' }
 				]}
 				testID='room-view'
 				forceInset={{ vertical: 'never' }}

@@ -14,11 +14,7 @@ export default StyleSheet.create({
 		flexDirection: 'column'
 	},
 	messageContent: {
-		flex: 1,
-		marginLeft: 46
-	},
-	messageContentWithHeader: {
-		marginLeft: 10
+		flex: 1
 	},
 	messageContentWithError: {
 		marginLeft: 0
@@ -30,7 +26,9 @@ export default StyleSheet.create({
 		flexDirection: 'row'
 		// flex: 1
 	},
-	temp: { opacity: 0.3 },
+	temp: {
+		opacity: 0.3
+	},
 	marginTop: {
 		marginTop: 6
 	},
