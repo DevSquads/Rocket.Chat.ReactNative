@@ -159,6 +159,9 @@ export default StyleSheet.create({
 		...sharedStyles.textRegular
 	},
 	readReceipt: {
-		lineHeight: 20
+		lineHeight: 20,
+		position: 'absolute',
+		bottom: 0,
+		right: 0
 	}
 });
