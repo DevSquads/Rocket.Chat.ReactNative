@@ -5,10 +5,8 @@ import Touchable from 'react-native-platform-touchable';
 
 import MessageContext from './Context';
 
-import User from './User';
 import styles from './styles';
 import RepliedThread from './RepliedThread';
-import MessageAvatar from './MessageAvatar';
 import Attachments from './Attachments';
 import Urls from './Urls';
 import Thread from './Thread';
@@ -17,14 +15,12 @@ import Reactions from './Reactions';
 import Broadcast from './Broadcast';
 import Discussion from './Discussion';
 import Content from './Content';
-import ReadReceipt from './ReadReceipt';
 import CallButton from './CallButton';
 
 const MessageInner = React.memo((props) => {
 	if (props.type === 'discussion-created') {
 		return (
 			<>
-				<User {...props} />
 				<Discussion {...props} />
 			</>
 		);
@@ -32,7 +28,6 @@ const MessageInner = React.memo((props) => {
 	if (props.type === 'jitsi_call_started') {
 		return (
 			<>
-				<User {...props} />
 				<Content {...props} isInfo />
 				<CallButton {...props} />
 			</>
@@ -41,7 +36,6 @@ const MessageInner = React.memo((props) => {
 	if (props.blocks && props.blocks.length) {
 		return (
 			<>
-				<User {...props} />
 				<Blocks {...props} />
 				<Thread {...props} />
 				<Reactions {...props} />
@@ -50,7 +44,6 @@ const MessageInner = React.memo((props) => {
 	}
 	return (
 		<>
-			<User {...props} />
 			<Content {...props} />
 			<Attachments {...props} />
 			<Urls {...props} />
@@ -63,17 +56,17 @@ const MessageInner = React.memo((props) => {
 MessageInner.displayName = 'MessageInner';
 
 const Message = React.memo((props) => {
+	const isLeft = props.author._id === props.user.id;
+	props.author.isLeft = isLeft;
 	if (props.isThreadReply || props.isThreadSequential || props.isInfo) {
 		const thread = props.isThreadReply ? <RepliedThread {...props} /> : null;
 		return (
 			<View style={[styles.container, props.style]}>
 				{thread}
 				<View style={[styles.flex, styles.center]}>
-					<MessageAvatar small {...props} />
 					<View
 						style={[
-							styles.messageContent,
-							props.isHeader && styles.messageContentWithHeader
+							styles.messageContent
 						]}
 					>
 						<Content {...props} />
@@ -85,20 +78,14 @@ const Message = React.memo((props) => {
 	return (
 		<View style={[styles.container, props.style]}>
 			<View style={styles.flex}>
-				<MessageAvatar {...props} />
 				<View
 					style={[
 						styles.messageContent,
-						props.isHeader && styles.messageContentWithHeader
+						isLeft ? { flexDirection: 'row' } : { flexDirection: 'row-reverse' }
 					]}
 				>
 					<MessageInner {...props} />
 				</View>
-				<ReadReceipt
-					isReadReceiptEnabled={props.isReadReceiptEnabled}
-					unread={props.unread}
-					theme={props.theme}
-				/>
 			</View>
 		</View>
 	);
@@ -146,7 +133,9 @@ Message.propTypes = {
 	onLongPress: PropTypes.func,
 	isReadReceiptEnabled: PropTypes.bool,
 	unread: PropTypes.bool,
-	theme: PropTypes.string
+	theme: PropTypes.string,
+	author: PropTypes.shape(),
+	user: PropTypes.object
 };
 
 MessageInner.propTypes = {

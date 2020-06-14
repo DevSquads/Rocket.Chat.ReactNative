@@ -34,7 +34,7 @@ export const themes = {
 		separatorColor: '#cbcbcc',
 		navbarBackground: '#ffffff',
 		headerBorder: '#B2B2B2',
-		headerBackground: isIOS ? '#f8f8f8' : '#2f343d',
+		headerBackground: isIOS ? '#f8f8f8' : '#075E54',
 		headerSecondaryBackground: '#ffffff',
 		headerTintColor: isAndroid ? '#ffffff' : '#1d74f5',
 		headerTitleColor: isAndroid ? '#ffffff' : '#0d0e12',

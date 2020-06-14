@@ -9,6 +9,7 @@ import Markdown from '../markdown';
 import { getInfoMessage } from './utils';
 import { themes } from '../../constants/colors';
 import MessageContext from './Context';
+import ReadReceipt from './ReadReceipt';
 
 const Content = React.memo((props) => {
 	if (props.isInfo) {
@@ -46,10 +47,27 @@ const Content = React.memo((props) => {
 			/>
 		);
 	}
-
 	return (
-		<View style={props.isTemp && styles.temp}>
+		// eslint-disable-next-line react/prop-types
+		<View style={[props.isTemp && styles.temp, props.author.isLeft ? {
+			backgroundColor: '#DCF8C6'
+
+		} : {
+			backgroundColor: '#ffffff'
+		}, props.msg && {
+			borderRadius: 10,
+			padding: 10,
+			flexDirection: 'row'
+		}]}
+		>
 			{content}
+			{props.msg ? (
+				<ReadReceipt
+					isReadReceiptEnabled={props.isReadReceiptEnabled}
+					unread={props.unread}
+					theme={props.theme}
+				/>
+			) : null}
 		</View>
 	);
 }, (prevProps, nextProps) => {
@@ -78,12 +96,15 @@ Content.propTypes = {
 	isThreadRoom: PropTypes.bool,
 	msg: PropTypes.string,
 	theme: PropTypes.string,
+	isReadReceiptEnabled: PropTypes.bool,
+	unread: PropTypes.bool,
 	isEdited: PropTypes.bool,
 	getCustomEmoji: PropTypes.func,
 	channels: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 	mentions: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 	navToRoomInfo: PropTypes.func,
-	useRealName: PropTypes.bool
+	useRealName: PropTypes.bool,
+	isLeft: PropTypes.bool
 };
 Content.displayName = 'MessageContent';
 

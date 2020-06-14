@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 });
 
 const Header = props => (
-	<View style={[styles.container, { backgroundColor: 'red'}]}>
+	<View style={[styles.container, { backgroundColor: 'red' }]}>
 		<HeaderBackButton />
 		<HeaderComponent
 			title='test'

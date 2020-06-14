@@ -256,6 +256,7 @@ class MessageContainer extends React.Component {
 				}}
 			>
 				<Message
+					user={user}
 					id={id}
 					msg={message}
 					rid={rid}
